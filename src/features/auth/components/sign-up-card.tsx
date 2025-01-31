@@ -1,14 +1,20 @@
-import { z } from "zod";
-import { FaGithub } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "@/components/ui/input";
 import { DottedSeparator } from "@/components/dotted-separator";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
-  Form,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
+import Link from "next/link";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Form, useForm } from "react-hook-form";
+import { z } from "zod";
+import {
   FormControl,
   FormField,
   FormItem,
@@ -16,20 +22,18 @@ import {
 } from "@/components/ui/form";
 
 const formSchema = z.object({
-  email: z
-    .string()
-    .trim()
-    .min(1, "Email is required")
-    .email("Invalid email address"),
+  name: z.string().trim().min(1, "Required"),
+  email: z.string().trim().min(1, "Required").email("Invalid email address"),
   password: z
     .string()
-    .min(1, "Required") // Never allow your users to have a requirement of your password of min of 8 characters
+    .min(8, "Password must be at least 8 characters")
     .max(256, "Password must be less than 256 characters"),
 });
 
-export const SignInCard = () => {
+export const SignUpCard = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
+      name: "",
       email: "",
       password: "",
     },
@@ -43,7 +47,17 @@ export const SignInCard = () => {
   return (
     <Card className="w-full h-full md:w-[487px] border-none shadow-none">
       <CardHeader className="flex items-center justify-center p-7">
-        <CardTitle className="text-2xl"> Welcome Back!</CardTitle>
+        <CardTitle className="text-2xl"> Sign Up</CardTitle>
+        <CardDescription>
+          By signing up, you agree to our{" "}
+          <Link className="text-blue-700" href="/terms-of-service">
+            Terms of Service
+          </Link>{" "}
+          and{" "}
+          <Link className="text-blue-700" href="/privacy-policy">
+            Privacy Policy
+          </Link>
+        </CardDescription>
       </CardHeader>
       <div className="px-7 mb-2">
         <DottedSeparator />
@@ -56,16 +70,18 @@ export const SignInCard = () => {
             noValidate
           >
             <FormField
-              name="email"
               control={form.control}
+              name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
                     <Input
                       required
-                      type="email"
-                      {...field}
-                      placeholder="Enter your email address"
+                      type="text"
+                      value={""}
+                      onChange={() => {}}
+                      placeholder="Enter your name"
+                      disabled={false}
                     />
                   </FormControl>
                   <FormMessage />
@@ -73,25 +89,44 @@ export const SignInCard = () => {
               )}
             />
             <FormField
-              name="password"
               control={form.control}
+              name="email"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
                     <Input
                       required
-                      type="password"
-                      {...field}
-                      placeholder="Enter your password"
-                      min={8}
-                      max={256}
+                      type="email"
+                      value={""}
+                      onChange={() => {}}
+                      placeholder="Enter your email address"
+                      disabled={false}
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button disabled={false} size="lg" className="w-full" type="submit">
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      required
+                      type="password"
+                      value={""}
+                      onChange={() => {}}
+                      placeholder="Enter your password"
+                      disabled={false}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button disabled={false} size="lg" className="w-full">
               Login
             </Button>
           </form>

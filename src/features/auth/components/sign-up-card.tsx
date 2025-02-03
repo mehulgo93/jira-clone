@@ -12,9 +12,10 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import {
+  Form,
   FormControl,
   FormField,
   FormItem,
@@ -31,6 +32,7 @@ const formSchema = z.object({
 });
 
 export const SignUpCard = () => {
+  // Initialize the form with default values and a Zod resolver for validation.
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
       name: "",
@@ -42,12 +44,13 @@ export const SignUpCard = () => {
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     console.log(values);
+    // Perform further actions like API calls here.
   };
 
   return (
     <Card className="w-full h-full md:w-[487px] border-none shadow-none">
       <CardHeader className="flex items-center justify-center p-7">
-        <CardTitle className="text-2xl"> Sign Up</CardTitle>
+        <CardTitle className="text-2xl">Sign Up</CardTitle>
         <CardDescription>
           By signing up, you agree to our{" "}
           <Link className="text-blue-700" href="/terms-of-service">
@@ -59,16 +62,20 @@ export const SignUpCard = () => {
           </Link>
         </CardDescription>
       </CardHeader>
+
       <div className="px-7 mb-2">
         <DottedSeparator />
       </div>
+
       <CardContent className="p-7">
+        {/* Wrap the form content with the custom Form provider */}
         <Form {...form}>
           <form
             className="space-y-4"
             onSubmit={form.handleSubmit(onSubmit)}
             noValidate
           >
+            {/* Name Field */}
             <FormField
               control={form.control}
               name="name"
@@ -78,16 +85,16 @@ export const SignUpCard = () => {
                     <Input
                       required
                       type="text"
-                      value={""}
-                      onChange={() => {}}
                       placeholder="Enter your name"
-                      disabled={false}
+                      {...field}
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+
+            {/* Email Field */}
             <FormField
               control={form.control}
               name="email"
@@ -97,16 +104,16 @@ export const SignUpCard = () => {
                     <Input
                       required
                       type="email"
-                      value={""}
-                      onChange={() => {}}
                       placeholder="Enter your email address"
-                      disabled={false}
+                      {...field}
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+
+            {/* Password Field */}
             <FormField
               control={form.control}
               name="password"
@@ -116,43 +123,34 @@ export const SignUpCard = () => {
                     <Input
                       required
                       type="password"
-                      value={""}
-                      onChange={() => {}}
                       placeholder="Enter your password"
-                      disabled={false}
+                      {...field}
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button disabled={false} size="lg" className="w-full">
-              Login
+
+            <Button type="submit" size="lg" className="w-full">
+              Sign Up
             </Button>
           </form>
         </Form>
       </CardContent>
+
       <div className="px-7">
         <DottedSeparator />
       </div>
+
       <CardContent className="p-7 flex flex-col gap-y-4">
-        <Button
-          disabled={false}
-          variant="secondary"
-          size="lg"
-          className="w-full"
-        >
-          <FcGoogle className="mr-2 size-5" />
-          Login with Google
+        <Button variant="secondary" size="lg" className="w-full">
+          <FcGoogle className="mr-2" />
+          Sign Up with Google
         </Button>
-        <Button
-          disabled={false}
-          variant="secondary"
-          size="lg"
-          className="w-full"
-        >
-          <FaGithub className="mr-2 size-5" />
-          Login with Github
+        <Button variant="secondary" size="lg" className="w-full">
+          <FaGithub className="mr-2" />
+          Sign Up with Github
         </Button>
       </CardContent>
     </Card>

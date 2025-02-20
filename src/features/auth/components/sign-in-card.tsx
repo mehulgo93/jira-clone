@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { Schema, z } from "zod";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { useForm } from "react-hook-form";
@@ -15,29 +15,18 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-
-const formSchema = z.object({
-  email: z
-    .string()
-    .trim()
-    .min(1, "Email is required")
-    .email("Invalid email address"),
-  password: z
-    .string()
-    .min(1, "Required") // Never allow your users to have a requirement of your password of min of 8 characters
-    .max(256, "Password must be less than 256 characters"),
-});
+import { loginSchema } from "@/features/auth/schemas";
 
 export const SignInCard = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<z.infer<typeof loginSchema>>({
     defaultValues: {
       email: "",
       password: "",
     },
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = (values: z.infer<typeof loginSchema>) => {
     console.log(values);
   };
 

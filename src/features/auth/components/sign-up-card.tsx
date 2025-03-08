@@ -21,30 +21,22 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-
-const formSchema = z.object({
-  name: z.string().trim().min(1, "Required"),
-  email: z.string().trim().min(1, "Required").email("Invalid email address"),
-  password: z
-    .string()
-    .min(8, "Password must be at least 8 characters")
-    .max(256, "Password must be less than 256 characters"),
-});
-
+import { registerSchema } from "../schemas";
+import { useRegister } from "../api/use-register";
 export const SignUpCard = () => {
+  const { mutate: register, isPending } = useRegister();
   // Initialize the form with default values and a Zod resolver for validation.
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<z.infer<typeof registerSchema>>({
     defaultValues: {
       name: "",
       email: "",
       password: "",
     },
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
-    // Perform further actions like API calls here.
+  const onSubmit = (values: z.infer<typeof registerSchema>) => {
+    register({ json: values });
   };
 
   return (

@@ -1,18 +1,24 @@
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
-import { z } from "zod";
+import { loginSchema } from "../schemas";
 
 const app = new Hono()
 .post(
     "/login",
-    zValidator("json", z.object({
-    email: z.string().email(),
-    password: z.string().min(8),
-})), (c) =>  {
-    return c.json({ success: true });
-})
+    zValidator("json", loginSchema),
+    (c) =>  {
+        return c.json({ success: "ok" });
+    }
+)
 
 export default app;
 
 
 //using as many as custom params using zvalidator in order to validate the request body
+// using a middleware before the route handler to validate the request body
+// using a route handler to handle the request
+// using a response to send the response to the client
+// using a middleware to handle the error
+// using a middleware to handle the request
+// using a middleware to handle the response
+// using a middleware to handle the error   

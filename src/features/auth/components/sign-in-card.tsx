@@ -29,6 +29,7 @@ export const SignInCard = () => {
 
   const onSubmit = (values: z.infer<typeof loginSchema>) => {
     login({ json: values });
+    form.reset();
   };
 
   return (

@@ -16,8 +16,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { loginSchema } from "@/features/auth/schemas";
-
+import { useLogin } from "@/features/auth/api/use-login";
 export const SignInCard = () => {
+  const { mutate: login, isPending } = useLogin();
   const form = useForm<z.infer<typeof loginSchema>>({
     defaultValues: {
       email: "",
@@ -27,7 +28,7 @@ export const SignInCard = () => {
   });
 
   const onSubmit = (values: z.infer<typeof loginSchema>) => {
-    console.log(values);
+    login({ json: values });
   };
 
   return (

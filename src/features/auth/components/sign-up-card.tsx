@@ -36,7 +36,6 @@ export const SignUpCard = () => {
   });
 
   const onSubmit = (values: z.infer<typeof registerSchema>) => {
-    console.log(values);
     register({ json: values });
     form.reset();
   };

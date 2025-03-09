@@ -5,6 +5,7 @@ import { loginSchema, registerSchema } from "../schemas";
 import { AUTH_COOKIE } from "../constants";
 import { createAdminClient } from "@/lib/appwrite";
 import { ID } from "node-appwrite";
+import { sessionMiddleware } from "@/lib/session-middlware";
 const app = new Hono()
 .post(
     "/login",
@@ -47,8 +48,9 @@ const app = new Hono()
 )
 
 .post(
-    "/logout",
-    async (c) =>  {
+    "/logout", sessionMiddleware,
+     (c) =>  {
+        const account = c.get("account");
         deleteCookie(c, AUTH_COOKIE);
         return c.json({success: true})
     }
@@ -65,3 +67,8 @@ export default app;
 // using a middleware to handle the request
 // using a middleware to handle the response
 // using a middleware to handle the error   
+
+// using appwrite is a way to create a user and a session and it is ideal for storing user data in the database
+// using a cookie to store the session id and it is ideal for storing user data in the database
+// using appwrite with Hono is really easy and seamless and it is really ideal if you want to make a production ready application.
+// using a middleware to handle the error, so in case if the user doesn't have a session id, then the user will be redirected to the login page.

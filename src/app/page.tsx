@@ -1,23 +1,18 @@
-"use client";
+import { UserButton } from "@/features/auth/components/user-button";
+import { getCurrent } from "@/features/auth/actions";
+import { redirect } from "next/navigation";
 
-import { useRouter } from "next/navigation";
-import { useCurrent } from "@/features/auth/api/use-current";
-import { useEffect } from "react";
-import { useLogout } from "@/features/auth/api/use-logout";
-import { Button } from "@/components/ui/button";
-export default function Home() {
-  const { data, isLoading } = useCurrent();
-  const router = useRouter();
-  const { mutate: logout } = useLogout();
-  useEffect(() => {
-    if (!data && !isLoading) {
-      router.push("/sign-in");
-    }
-  }, [data]);
+export default async function Home() {
+  const user = await getCurrent();
+
+  if (!user) {
+    redirect("/sign-in");
+  }
   return (
-    <div className="flex gap-4">
-      only visible to authenticated users
-      <Button onClick={() => logout()}>Logout</Button>
+    <div>
+      <UserButton />
     </div>
   );
 }
+
+// await or asynchornous functions can only be used in the server components

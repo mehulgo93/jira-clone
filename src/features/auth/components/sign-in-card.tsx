@@ -1,3 +1,5 @@
+"use client";
+
 import { Schema, z } from "zod";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";

@@ -27,13 +27,15 @@ type AdditionalContext = {
 }
 export const sessionMiddleware = createMiddleware<AdditionalContext>(async (c, next) => {
     const client = new Client()
-    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)
-    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT!)
+        .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)
+        .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT!);
 
     const session = getCookie(c, AUTH_COOKIE);
+    console.log("Session Retrieved:", session);
 
     if (!session) {
-        return c.json({error: "Unauthorized"}, 401);
+        console.log("No session found, returning unauthorized.");
+        return c.json({ error: "Unauthorized" }, 401);
     }
 
     client.setSession(session);
@@ -42,6 +44,7 @@ export const sessionMiddleware = createMiddleware<AdditionalContext>(async (c, n
     const databases = new Databases(client);
     const storage = new Storage(client);
     const user = await account.get();
+    console.log("User Retrieved:", user);
 
     c.set("account", account);
     c.set("databases", databases);
@@ -49,6 +52,5 @@ export const sessionMiddleware = createMiddleware<AdditionalContext>(async (c, n
     c.set("user", user);
 
     await next();
-    
-})
+});
 

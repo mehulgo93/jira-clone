@@ -78,6 +78,7 @@ export const SignUpCard = () => {
                 <FormItem>
                   <FormControl>
                     <Input
+                      disabled={isPending}
                       required
                       type="text"
                       placeholder="Enter your name"
@@ -97,6 +98,7 @@ export const SignUpCard = () => {
                 <FormItem>
                   <FormControl>
                     <Input
+                      disabled={isPending}
                       required
                       type="email"
                       placeholder="Enter your email address"
@@ -116,6 +118,7 @@ export const SignUpCard = () => {
                 <FormItem>
                   <FormControl>
                     <Input
+                      disabled={isPending}
                       required
                       type="password"
                       placeholder="Enter your password"

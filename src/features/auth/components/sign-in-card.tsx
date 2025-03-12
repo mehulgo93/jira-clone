@@ -59,6 +59,7 @@ export const SignInCard = () => {
                       required
                       type="email"
                       {...field}
+                      disabled={isPending}
                       placeholder="Enter your email address"
                     />
                   </FormControl>
@@ -76,6 +77,7 @@ export const SignInCard = () => {
                       required
                       type="password"
                       {...field}
+                      disabled={isPending}
                       placeholder="Enter your password"
                       min={8}
                       max={256}
@@ -96,7 +98,7 @@ export const SignInCard = () => {
       </div>
       <CardContent className="p-7 flex flex-col gap-y-4">
         <Button
-          disabled={false}
+          disabled={isPending}
           variant="secondary"
           size="lg"
           className="w-full"
@@ -105,7 +107,7 @@ export const SignInCard = () => {
           Login with Google
         </Button>
         <Button
-          disabled={false}
+          disabled={isPending}
           variant="secondary"
           size="lg"
           className="w-full"

@@ -1,6 +1,7 @@
 import { getCurrent } from "@/features/auth/actions";
 import { redirect } from "next/navigation";
 import { Sidebar } from "@/components/sidebar";
+
 interface DashboardLayoutProps {
   children: React.ReactNode;
 }
@@ -27,3 +28,5 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     </div>
   );
 };
+
+export default DashboardLayout;

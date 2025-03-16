@@ -5,7 +5,7 @@ import { loginSchema, registerSchema } from "../schemas";
 import { AUTH_COOKIE } from "../constants";
 import { createAdminClient } from "@/lib/appwrite";
 import { ID } from "node-appwrite";
-import { sessionMiddleware } from "@/lib/session-middlware";
+import { sessionMiddleware } from "@/lib/session-middleware";
 const app = new Hono()
 .get("/me", sessionMiddleware,
     (c) =>  {

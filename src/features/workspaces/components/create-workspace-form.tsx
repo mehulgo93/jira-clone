@@ -10,14 +10,18 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { DottedSeparator } from "@/components/dotted-separator";
+import { Button } from "@/components/ui/button";
+import { useCreateWorkspace } from "../api/use-create-workspace";
 interface CreateWorkspaceFormProps {
   onCancel?: () => void;
 }
 
 export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
+  const { mutate, isPending } = useCreateWorkspace();
   const methods = useForm();
   const form = useForm<z.infer<typeof createWorkspaceSchema>>({
     resolver: zodResolver(createWorkspaceSchema),
@@ -27,6 +31,7 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
   });
 
   const onSubmit = (values: z.infer<typeof createWorkspaceSchema>) => {
+    mutate({ json: values });
     console.log(values);
   };
 
@@ -41,9 +46,9 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
         <DottedSeparator />
       </div>
       <CardContent className="p-7">
-        <Form {...form}>
-          <FormProvider {...methods}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+        <FormProvider {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <div className="flex flex-col gap-y-4">
               <FormField
                 control={form.control}
                 name="name"
@@ -53,12 +58,27 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
                     <FormControl>
                       <Input {...field} placeholder="Enter workspace name" />
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
-            </form>
-          </FormProvider>
-        </Form>
+            </div>
+            <DottedSeparator className="py-7" />
+            <div className="flex items-center justify-between">
+              <Button
+                type="button"
+                size="lg"
+                variant="secondary"
+                onClick={onCancel}
+              >
+                Cancel
+              </Button>
+              <Button type="submit" size="lg">
+                Create
+              </Button>
+            </div>
+          </form>
+        </FormProvider>
       </CardContent>
     </Card>
   );

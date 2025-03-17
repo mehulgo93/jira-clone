@@ -1,6 +1,7 @@
 import { getCurrent } from "@/features/auth/actions";
 import { redirect } from "next/navigation";
 import { Sidebar } from "@/components/sidebar";
+import { Navbar } from "@/components/navbar";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -17,10 +18,10 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
         <div className="fixed left-0 top-0 hidden lg:block lg:w-[264px] h-full overflow-y-auto">
           <Sidebar />
         </div>
-        <div className="lg:pl-[264px]">
+        <div className="lg:pl-[264px] w-full">
           {/* this follows the screen expansion but after more expansion it will stop */}
           <div className="mx-auto max-w-screen-2xl h-full">
-            {/* Navbar */}
+            <Navbar />
             <main className="h-full py-8 px-6 flex flex-col">{children}</main>
           </div>
         </div>

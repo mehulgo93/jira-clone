@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { createWorkspaceSchema } from "../schemas";
 import { z } from "zod";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -31,8 +31,7 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
   });
 
   const onSubmit = (values: z.infer<typeof createWorkspaceSchema>) => {
-    mutate({ json: values });
-    console.log(values);
+    mutate({ form: values });
   };
 
   return (
@@ -70,10 +69,11 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
                 size="lg"
                 variant="secondary"
                 onClick={onCancel}
+                disabled={isPending}
               >
                 Cancel
               </Button>
-              <Button type="submit" size="lg">
+              <Button type="submit" size="lg" disabled={isPending}>
                 Create
               </Button>
             </div>

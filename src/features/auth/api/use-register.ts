@@ -1,5 +1,6 @@
 import { Mutation, useMutation, useQueryClient } from "@tanstack/react-query";
 import { InferRequestType } from "hono";
+import { toast } from "sonner";
 import { InferResponseType } from "hono";
 import { client } from "@/lib/rpc";
 import { useRouter } from "next/navigation";
@@ -20,6 +21,10 @@ export const useRegister = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ["current"]});
             router.refresh();
+            toast.success("Registered Successfully");
+        },
+        onError: () => {
+            toast.error("Failed to register");
         }
     })
 

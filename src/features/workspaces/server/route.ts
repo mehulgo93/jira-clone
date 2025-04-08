@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import { createWorkspaceSchema } from "../schemas";
-import { ID, ImageGravity } from "node-appwrite";
+import { ID } from "node-appwrite";
 import { sessionMiddleware } from "@/lib/session-middleware";
 import { DATABASE_ID, IMAGES_BUCKET_ID, WORKSPACES_ID } from "@/config";
 
@@ -16,6 +16,7 @@ const app = new Hono()
         const user = c.get("user");
 
         const {name, image} = c.req.valid("form");
+
         let uploadedImageUrl: string | undefined;
 
         if (image instanceof File) {
@@ -29,7 +30,7 @@ const app = new Hono()
         const workspace = await databases.createDocument(DATABASE_ID, WORKSPACES_ID, ID.unique(), {
             name,
             userId: user.$id,
-            image: uploadedImageUrl,
+            imageUrl: uploadedImageUrl,
         });
 
         return c.json({data: workspace});

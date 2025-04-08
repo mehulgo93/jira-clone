@@ -20,7 +20,7 @@ const app = new Hono()
         let uploadedImageUrl: string | undefined;
 
         if (image instanceof File) {
-            const file = await storage.createFile(IMAGES_BUCKET_ID, ID.unique(), image);
+            const file = await storage.createFile(IMAGES_BUCKET_ID, ID.unique(), image,);
             const arrayBuffer = await storage.getFilePreview(
                 IMAGES_BUCKET_ID,
                 file.$id,

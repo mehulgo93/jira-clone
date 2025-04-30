@@ -1,11 +1,17 @@
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import { createWorkspaceSchema } from "../schemas";
-import { ID, ImageGravity } from "node-appwrite";
+import { ID, ImageGravity, Query } from "node-appwrite";
 import { sessionMiddleware } from "@/lib/session-middleware";
 import { DATABASE_ID, IMAGES_BUCKET_ID, WORKSPACES_ID } from "@/config";
 
 const app = new Hono()
+.get("/", sessionMiddleware, async (c) => {
+    const databases = c.get("databases");
+
+    const workspaces = await databases.listDocuments(DATABASE_ID, WORKSPACES_ID);
+    return c.json({data: workspaces});
+})
 .post(
     "/",
     zValidator("form", createWorkspaceSchema),

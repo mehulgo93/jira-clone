@@ -9,13 +9,15 @@ import { useEffect, useState } from "react";
 
 export const MobileSidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const pathname = usePathname;
+  const pathname = usePathname();
 
   useEffect(() => {
-    setIsOpen(false);
-  }, [pathname]);
+    if (isOpen) {
+      setIsOpen(false);
+    }
+  }, [pathname, isOpen]);
   return (
-    <Sheet modal={false}>
+    <Sheet modal={false} open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         <Button variant="secondary" className="lg:hidden">
           <MenuIcon className="size-4 text-neutral-500" />

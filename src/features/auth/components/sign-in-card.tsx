@@ -1,6 +1,6 @@
 "use client";
 
-import { Schema, z } from "zod";
+import { z } from "zod";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { useForm } from "react-hook-form";
@@ -120,7 +120,7 @@ export const SignInCard = () => {
         <DottedSeparator />
       </div>
       <CardContent className="p-7 flex items-center justify-center">
-        <p>Don't have an account?</p>
+        <p>Don&apos;t have an account?</p>
 
         <Link href="/sign-up">
           <span className="text-blue-700">&nbsp;Sign Up</span>

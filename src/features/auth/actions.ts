@@ -19,7 +19,7 @@ export const getCurrent = async () => {
    const user =  await account.get();
    return user
 }
-     catch (error) {
+     catch {
         return null;
         
     }
